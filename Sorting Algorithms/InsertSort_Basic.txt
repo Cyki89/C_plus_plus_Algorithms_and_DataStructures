@@ -1,0 +1,47 @@
+#include<iostream>
+using namespace std;
+
+void insert_sort (int * tab, int lewy, int prawy)
+{
+    int current_value;
+    int sort_index;
+    for (; lewy<prawy; lewy++)
+    {
+        sort_index=lewy;
+        current_value=tab[sort_index+1];
+
+
+        while (current_value<tab[sort_index] && sort_index>=0)
+        {
+            tab[sort_index+1]=tab[sort_index];
+            sort_index--;
+
+        }
+        if (sort_index<lewy)
+            tab[sort_index+1]=current_value;
+
+    }
+}
+
+int main()
+{
+    int *tab, n;
+
+    cout<<"Ile liczb bedziesz chcial posortowaa? ";
+    cin>>n;
+    tab = new int [n]; //przydzielenie pamieci na elementy tablicy
+    //wczytanie liczb
+
+    for (int i=0; i<n; i++)
+        cin>>tab[i];
+
+    insert_sort(tab,0, n-1);
+
+    //wypisanie posortowanych elementów
+    for(int i=0; i<n; i++)
+        cout<<tab[i]<<" ";
+
+    cin.ignore();
+    cin.get();
+    return 0;
+}

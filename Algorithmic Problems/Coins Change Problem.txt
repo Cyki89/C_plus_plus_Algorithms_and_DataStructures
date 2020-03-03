@@ -1,0 +1,67 @@
+#include <iostream>
+#include <limits.h>
+#include <math.h>
+using namespace std;
+
+int main()
+{
+    int n,R=600;
+    int cash[]={1,200,483};
+    int cashSize=sizeof(cash)/sizeof(int);
+    int k[cashSize][cashSize+1]={};
+    int O=INT_MAX;
+    int oIndex=cashSize-1;
+    bool maxEff=false;
+
+    for (int i=cashSize-1; i>=0; i--){
+        if (maxEff==true) break;
+        int r=R;
+        int e=-1;
+        for (int j=i; j>=0; j--){
+            if (cash[j]<=r){
+                if (e==-1) e=j;
+                n=r/cash[j];
+                r-=cash[j]*n;
+                k[i][j]=n;
+                k[i][cashSize]+=n;
+            }
+            if (r==0){
+                if (O>k[i][cashSize]){
+                    O=k[i][cashSize];
+                    oIndex=i;
+                }
+                maxEff=true;
+                int s=j;
+                while(s<e){
+                    double m;
+                    m=ceil((double(cash[s+1])/(double)cash[s]));
+                    if((m*cash[s]-cash[s+1])>(m-1)){
+                        maxEff=false;
+                        break;
+                    }
+                    s++;
+                }
+                break;
+            }
+        }
+    }
+
+    for (int i=cashSize-1; i>=0; i--){
+        for (int j=cashSize-1; j>=0; j--){
+            cout<<k[i][j]<<" x "<<cash[j]<<" PLN | ";
+        }
+        cout<<"Coins: "<<k[i][cashSize]<<endl;
+    }
+    cout<<endl<<"Optimum:  ";
+
+    for (int j=cashSize-1; j>=0; j--){
+
+        cout<<k[oIndex][j]<<" x "<<cash[j]<<" PLN | ";
+
+    }
+    cout<<"Coins: "<<k[oIndex][cashSize]<<endl;
+
+    return 0;
+}
+
+

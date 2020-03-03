@@ -1,0 +1,87 @@
+Z danego przedziału [a..b] naleźy wypisać ile jest liczb naturalnych dodatnich, które nie dzielą się przez źadną liczbę z multizbioru A = {a1, a2, ..., an}.
+
+Wejście
+W pierwszym wierszu jedna liczba n określająca ilość elementów multizbioru A (n ≤ 10000).
+
+W drugim wierszu n liczb multizbioru. Kaźda z nich mieści się w przedziale [1..106].
+
+W trzecim wierszu jedna liczba q oznaczająca liczbę zapytań (q ≤ 10000).
+
+Kaźde zapytanie jest reprezentowane przez dwie liczby a i b określające przedział w postaci [a..b], gdzie a ≤ b oraz a, b ∈ [1..106].
+
+Wyjście
+Dla każdego zapytania wypisz liczbę liczb niepodzielnych przez żadną liczbę z multizbioru A.
+
+Przykład
+Wejście:
+3
+2 3 4
+2
+1 10
+10 20
+
+Wyjście:
+3
+4
+
+########
+
+#include <iostream>
+#include <sstream>
+#include <set>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+    bool divided[1000001]={};
+    int n;
+    cin>>n;
+    set <int> A;
+    int liczba;
+    for (int i=0; i<n; i++)
+    {
+        cin>>liczba;
+        A.insert(liczba);
+    }
+    vector <int> new_A;
+    for (int x : A)
+    {
+            bool if_divided=false;
+            for (int y : new_A)
+            {
+                if (x%y==0)
+                {
+                    if_divided=true;
+                    break;
+                }
+            }
+            if (if_divided==false)
+                new_A.push_back(x);
+    }
+
+    for(int i=0; i<new_A.size(); i++){
+         for (int j=new_A[i]; j<=1000000; j+=new_A[i]){
+            divided[j]=true;
+         }
+    }
+    
+    int how_many_not_divided[1000001]={};
+    int count=0;
+    for (int i=1; i<=1000000; i++){
+      if (divided[i]==false) count++;
+      how_many_not_divided[i]=count;
+    }
+
+    int q;
+    cin>>q;
+    for (int i=0; i<q; i++)
+    {
+        int a,b;
+        cin>>a>>b;
+        cout<<how_many_not_divided[b]-how_many_not_divided[a-1]<<endl;
+    }
+    return 0;
+}
+

@@ -1,0 +1,81 @@
+Danych jest n punktów o współrzędnych całkowitych na płaszczyźnie. Należy stwierdzić czy wszystkie te punkty leżą na wspólnej prostej.
+
+Wejście
+W pierwszej linii znajduje się liczba naturalna T (1<=T<=30) oznaczająca liczbę zestawów testowych. Następnie opisywane są kolejne zestawy.
+
+Pojedynczy zestaw testowy zbudowany jest następująco:
+- w pierwszej linii znajduje się liczba punktów n (1<=n<=50000)
+- w kolejnych n liniach znajduje się współrzędne x y kolejnych punktów, |x|, |y|<=109.
+
+Wyjście
+Dla każdego zestawu testowego należy w osobnej linii wypisać "TAK" lub "NIE" - odpowiedź na pytanie z treści zadania.
+
+Przykład
+Input:
+2
+4
+0 0 
+2 2
+11 11
+-2 -2
+3
+1 0
+0 0 
+0 1
+
+Output:
+TAK
+NIE
+
+#######
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int t;
+    cin>>t;
+    for (int i=0; i<t; i++){
+        int n;
+        cin>>n;
+        
+        long long x[50000],y[50000];
+        for (int j=0; j<n; j++){
+            cin>>x[j]>>y[j];
+        } 
+        
+        long long x1,x2,y1,y2;
+        x1=x[0]; y1=y[0];
+        int j=1;
+        
+        while(x1==x[j] && y1==y[j] && j<n) 
+            j++;
+            
+        if (!(n-j)){
+            cout<<"TAK"<<endl; 
+            continue;
+        }
+            
+        x2=x[j];
+        y2=y[j];
+        bool Lin=true;
+        while(j<n){
+        if((y[j]-y1) * (x2-x1) - ( (y2-y1) *(x[j]-x1)) != 0){
+            Lin=false;
+            break;
+        }
+        j++;
+        }
+        if (Lin==true) cout<<"TAK"<<endl;
+        else cout<<"NIE"<<endl;    
+    }
+
+    return 0;
+}
+
+
+
+
+

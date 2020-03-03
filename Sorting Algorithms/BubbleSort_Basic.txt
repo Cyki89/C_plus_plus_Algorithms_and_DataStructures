@@ -1,0 +1,59 @@
+#include <iostream>
+#include <time.h>
+#include <cstdlib>
+
+using namespace std;
+
+/*void sortowanie(int*tab, int ile) // rosnaco
+{
+    for (int i=0; i<ile-1; ile--)
+    {
+        for (int j=0; j<ile-1; j++)
+        {
+            if (tab[j]>tab[j+1])
+            {
+                int buffor;
+                buffor=tab[j];
+                tab[j]=tab[j+1];
+                tab[j+1]=buffor;
+            }
+
+        }
+
+    }
+} */
+
+void sortowanie(int*tab, int ile) // malejaco
+{
+    for (int i=0; i<ile-1; ile--)
+    {
+        for (int j=0; j<ile-1; j++)
+        {
+            if (tab[j]<tab[j+1])
+            {
+                int buffor;
+                buffor=tab[j];
+                tab[j]=tab[j+1];
+                tab[j+1]=buffor;
+            }
+
+        }
+
+    }
+}
+
+
+int main()
+{
+   srand(time(NULL));
+   int ile;
+   cout<<"ile liczb?"<<endl;
+   cin>>ile;
+   int tablica[ile];
+   for (int i=0; i<ile; i++) tablica[i]=rand()%11;
+   for (int i=0; i<ile; i++) cout<<tablica[i]<<",";
+   sortowanie(tablica,ile);
+   cout<<endl;
+   for (int i=0; i<ile; i++) cout<<tablica[i]<<",";
+   return 0;
+}

@@ -1,0 +1,44 @@
+Jasio miał kartkówkę z programowania.. Nie wie czy napisał dobry algorytm czy nie, co go bardzo męczy.. Pomóż mu i napisz program, który dla zadanej liczby n obliczy iloma zerami kończy się liczba n!, aby zaspokoić jego niepewność..
+
+Wejście
+Liczba t < 105 oznaczająca liczbę testów. Każdy test składa się z jednej liczby n < 230.
+
+Wyjście
+Dla każdej liczby n z wejścia wypisz liczbę zer, którymi kończy się liczba n!.
+
+Przykład
+Wejście:
+3
+2
+10
+12
+
+Wyjście:
+0
+2
+2
+
+#########
+
+#include <iostream>
+#include <math.h>
+
+using namespace std;
+
+int main()
+{
+int t;
+cin>>t;
+for (int i=0; i<t; i++){
+    long long int n;
+    cin>>n;
+    int k=1;
+    int result=0;
+    while(n>=pow(5,k)){
+       result+=n/pow(5,k);
+       k++;
+    }
+    cout<<result<<endl;
+}
+return 0;
+}

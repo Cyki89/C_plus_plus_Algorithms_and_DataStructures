@@ -1,0 +1,43 @@
+#include <iostream>
+#include <vector>
+#include <time.h>
+
+using namespace std;
+
+void show(vector <int> v){
+    for (int x : v) cout<<x<<" ";
+    cout<<endl;
+}
+
+void quickSort(vector <int> &v, int left, int right){
+    if (left<right){
+        int s=(left+right)/2;
+        int tempL=left;
+        int tempR=right;
+        while(tempL<tempR){
+            while(v[tempL]<=v[s] && tempL<s) tempL++;
+            while(v[tempR]>=v[s] && tempR>s) tempR--;
+            if (tempL<tempR)
+                swap(v[tempL],v[tempR]);
+                if (tempL==s){tempL=left; tempR--;}
+                else if (tempR==s){tempR=right; tempL++;}
+        }
+        quickSort(v,left,s-1);
+        quickSort(v,s+1,right);
+    }
+}
+
+int main() {
+   srand(time(NULL)); setlocale(LC_ALL, "");
+
+   vector <int> v;
+   do {
+       v.push_back(rand()%10); 
+   } while (v.size()<18 || v.back()%2==0 );
+   
+   show(v);
+   quickSort(v,0,v.size()-1);
+   show(v);
+   
+ return 0;
+}

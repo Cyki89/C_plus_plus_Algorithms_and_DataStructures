@@ -1,0 +1,68 @@
+#include <iostream>
+#include <math.h>
+#include <vector>
+#include <time.h>
+using namespace std;
+
+
+template <typename T> void show(T container) {
+   cout <<string(60,'=')<< "\n[" << container.size() << "]=\t";
+   int linebreak=1;
+   for (auto x: container) {
+      cout << x << " ";
+      if ((++linebreak)%15==0) cout << "\n\t";
+   }
+   cout << endl << endl;
+}
+
+void bublesort(vector <int> v){
+   unsigned step=0;
+   int temp;
+   for (unsigned i=0; i<v.size()-1; i++) {
+      for (unsigned j=0;j<v.size()-1-i; j++) {
+         step++;
+         if (v[j]>v[j+1]) {
+            temp=v[j];
+            v[j]=v[j+1];
+            v[j+1]=temp;
+         }
+      }
+   }
+   show(v);
+   cout << endl <<"Ilosc wykonanych/max krokow: "<< step << "/" << v.size() * v.size();
+   cout << endl << endl;
+}
+
+void bublesort2(vector <int> v){
+   unsigned step=0;
+   int temp;
+   for (unsigned i=0; i<v.size()-1; i++) {
+      bool sort=false; //optymalizacjia algorytmu
+      for (unsigned j=0;j<v.size()-1-i; j++) {
+         step++;
+         if (v[j]>v[j+1]) {
+            temp=v[j];
+            v[j]=v[j+1];
+            v[j+1]=temp;
+            sort=true;
+         }
+      }
+      if (sort==false) break;
+   }
+   show(v);
+   cout << endl <<"Ilosc wykonanych/max krokow: "<< step << "/" << v.size() * v.size();
+   cout << endl << endl;
+}
+
+int main() {
+   srand(time(NULL)); setlocale(LC_ALL, "");
+   vector <int> v;
+   //vector <int> v={1,2,3,5,6,8,7,9};
+   do { v.push_back(rand()%11); } while (v.size()<10 || v.back()%2==0);
+   show(v);
+   bublesort(v);
+   show(v);
+   bublesort2(v);
+
+ return 0;
+}

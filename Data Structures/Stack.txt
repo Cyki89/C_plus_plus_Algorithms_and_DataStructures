@@ -1,0 +1,73 @@
+#include <iostream>
+using namespace std;
+
+struct Estack
+{
+  int data=0;
+  Estack* under=NULL;
+};
+
+void add2Stack(int d, Estack* &top)
+{
+    Estack* new_element=new Estack;
+    cout<<&top<<endl;
+    new_element->data=d;
+    new_element->under=top;
+    top=new_element;
+
+}
+
+void RemoveFromStack(Estack* &top)
+{
+  Estack* temp= top;
+  top=top->under;
+  delete temp;
+}
+
+
+void showStack (Estack* top)
+{
+  while(top->under!=NULL)
+  {
+    cout<<top->data<<endl;
+    top=top->under;
+  }
+  cout<<"NULL"<<endl;
+}
+int main()
+{
+    Estack* myStack=NULL;
+    //Estack* myStack=new Estack;
+    /* add2Stack(10,myStack);
+    cout<<&myStack<<endl;
+    cout<<&myStack->data<<endl;
+    cout<<&myStack->under<<endl;
+   cout<<myStack->data<<endl;
+    cout<<myStack->under<<endl;
+    add2Stack(20,myStack);
+    cout<<&myStack<<endl;
+    cout<<&myStack->data<<endl;
+    cout<<&myStack->under<<endl;
+    cout<<myStack->data<<endl;
+    cout<<myStack->under<<endl;
+    add2Stack(30,myStack);
+    cout<<&myStack<<endl;
+    cout<<&myStack->data<<endl;
+    cout<<&myStack->under<<endl;
+    cout<<myStack->data<<endl;
+    cout<<myStack->under<<endl;
+    RemoveFromStack(myStack);
+    cout<<&myStack<<endl;
+    cout<<&myStack->data<<endl;
+    cout<<&myStack->under<<endl;
+    cout<<myStack->data<<endl;
+    cout<<myStack->under<<endl; */
+    cout<<&myStack<<endl;
+    add2Stack(10,myStack);
+    add2Stack(20,myStack);
+    add2Stack(30,myStack);
+    add2Stack(40,myStack);
+    showStack(myStack);
+    return 0;
+
+}

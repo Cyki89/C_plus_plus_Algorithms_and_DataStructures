@@ -1,0 +1,60 @@
+FR_01_02 - Dodawanie ułamków
+Napisz program, kóry doda do siebie dwa ułamki
+
+Wejście
+Dwa ułamki w formacie licznik1/mianownik1 licznik2/mianownik2, gdzie licznik1, licznik2, mianownik1 oraz mianownik2 to liczby naturalne z przedziału [1..232-1]
+
+Wyjście
+Na wyjściu powinien pojawić się wynik w postaci:
+
+licznik1/mianownik1 + licznik2/mianownik2 = licznik_wynikowy/mianownik_wynikowy
+
+Ułamek wynikowy powinien być przedstawiony w postaci nieskracalnej.
+
+Dane są tak dobrane, że do wszystkich obliczeń wystarczą typy 64 bitowe.
+
+Przykład
+Input:
+1/2 3/4
+
+Output:
+1/2 + 3/4 = 5/4
+
+################
+
+#include <iostream>
+
+using namespace std;
+
+unsigned long long int NWD (unsigned long long int a,
+unsigned long long int b) {
+    while(b){
+        swap(a=a%b, b);
+    }
+    return a;
+}
+
+unsigned long long int NWW (unsigned long long int a,
+unsigned long long int b, unsigned long long int NWD) {
+        return a*b/NWD;
+}
+
+int main()
+{
+    unsigned long long num1, num2, den1, den2, numW, denW, nwdW;
+    char mark;
+    cin>>num1>>mark>>den1>>num2>>mark>>den2;
+    
+    denW=NWW(den1,den2,NWD(den1,den2));
+    numW=num1*den2/NWD(den1,den2)+num2*den1/NWD(den1,den2);
+    
+    nwdW=NWD(numW,denW);
+    numW=numW/nwdW;
+    denW=denW/nwdW;
+
+    cout<<num1<<mark<<den1<<" + "<<num2<<mark<<den2<<" = "<<numW<<mark<<denW<<endl;
+
+    return 0;
+}
+
+

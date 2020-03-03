@@ -1,0 +1,60 @@
+#include <iostream>
+
+using namespace std;
+
+unsigned long long quickPower(int p, int q){
+
+    unsigned long long result=1;
+
+    while (q>0){
+        if (q%2==1)
+            result*=p;
+        p*=p;
+        q/=2;
+    }
+    return result;
+}
+
+unsigned long long quickPowerModulo(int p, int q, int d){
+
+    unsigned long long result=1;
+
+    while (q>0){
+        if (q%2==1){
+            result*=p;
+            result%=d;
+        }
+        p*=p;
+        p%=d;
+        q/=2;
+    }
+    return result;
+}
+
+string bits(int number){
+
+    if (number==0) return "0";
+    string result="";
+
+    while(number>0){
+        if (number%2==1)
+            result+="1";
+        else
+            result+="0";
+        number/=2;
+    }
+    return result;
+}
+
+
+int main()
+{
+   cout<<quickPower(2,6)<<endl;
+   cout<<quickPowerModulo(2,0,1)<<endl;
+   cout<<quickPowerModulo(1000,1000,1983)<<endl;
+   cout<<bits(0)<<endl;
+   cout<<bits(1)<<endl;
+   cout<<bits(2)<<endl;
+   cout<<bits(3)<<endl;
+   cout<<bits(9)<<endl;
+}

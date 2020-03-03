@@ -1,0 +1,122 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Tree
+{
+  public:
+  int data;
+  Tree* parent=NULL;
+  Tree* leftchild=NULL;
+  Tree* rightchild=NULL;
+  Tree(int d){data=d;}
+
+ bool add(int d, string path, int index=0)
+  {
+    char znak=path[index];
+    if (index>=path.size() || path.size()>3) return false;
+    if (znak=='0') // w lewo
+    {
+        if (leftchild==NULL)
+        {
+           Tree*new_element=new Tree(d);
+           leftchild=new_element;
+           new_element->parent=this;
+           return true;
+        }
+        else leftchild->add(d, path, ++index);
+    }
+    else // w prawo
+        {
+        if (rightchild==NULL)
+        {
+           Tree*new_element=new Tree(d);
+           rightchild=new_element;
+           new_element->parent=this;
+           return true;
+        }
+        else rightchild->add(d, path, ++index);
+    }
+  }
+
+void show()
+{
+    //if(this->parent!=NULL)cout<<this->parent->data<<endl;
+    if(this!=NULL) cout<<"     "<<this->data<<endl; else cout<<"    N"<<"  "<<endl;
+    if(this->leftchild!=NULL) cout<<"  "<<this->leftchild->data<<"    "; else cout<<"  "<<"    N"<<"  "<<"    ";
+    if(this->rightchild!=NULL) cout<<this->rightchild->data<<endl; else cout<<"N"<<"  "<<endl;
+    if(this->leftchild!=NULL) {if(this->leftchild->leftchild!=NULL) cout<<this->leftchild->leftchild->data<<"  "; else cout<<"N"<<"  ";
+    if(this->leftchild->rightchild!=NULL) cout<<this->leftchild->rightchild->data<<"  "; else cout<<"N"<<"  ";}
+    if(this->rightchild!=NULL) {if(this->rightchild->leftchild!=NULL) cout<<this->rightchild->leftchild->data<<"  "; else cout<<"N"<<"  ";
+    if(this->rightchild->rightchild!=NULL) cout<<this->rightchild->rightchild->data<<endl; else cout<<"N"<<endl;}
+}
+
+bool remove()
+{
+   Tree* temp=this;
+   if (!temp) return false;
+
+   if(temp->parent->leftchild==temp) temp->parent->leftchild=NULL; //rodzicowi wstawiam wzkaznik na dziecko NULL
+   else temp->parent->rightchild=NULL; //rodzicowi wstawiam wzkaznik na dziecko NULL
+
+   if (temp->leftchild!=NULL) temp->leftchild->remove();
+   if (temp->rightchild!=NULL) temp->rightchild->remove();
+
+    delete temp;
+}
+
+Tree* moveTo(string path)
+ {
+   Tree* temp=this;
+   for (int i=0; i<path.size(); i++)
+   {
+    char znak=path[i];
+    if (znak=='0')
+    {
+        temp=temp->leftchild;
+        if (i==path.size()-1) return temp;
+    }
+    else // w prawo
+    {
+        temp=temp->rightchild;
+        if (i==path.size()-1) return temp;
+    }
+  }
+ }
+
+ void showParents()
+{
+   Tree* temp=this;
+   int i=0;
+   while(temp->parent!=NULL)
+   {
+     cout<<++i<<" przodek: "<<temp->parent->data<<endl;
+     temp=temp->parent;
+   }
+   cout<<endl;
+}
+
+};
+
+
+
+
+int main()
+{
+
+    Tree* new_Tree=new Tree(1);
+
+    new_Tree->add(2,"0");
+    new_Tree->add(3,"1");
+    new_Tree->add(4,"00");
+    new_Tree->add(5,"01");
+    new_Tree->add(6,"10");
+    new_Tree->add(7,"11");
+    new_Tree->add(8,"11"); // brak dodania + */
+    new_Tree->show();
+    new_Tree->moveTo("0")->showParents();
+    //new_Tree->show();
+
+    return 0;
+}

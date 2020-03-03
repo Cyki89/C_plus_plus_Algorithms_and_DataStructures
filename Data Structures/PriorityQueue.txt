@@ -1,0 +1,154 @@
+#include <iostream>
+using namespace std;
+
+struct Queue
+{
+    int data=0;
+    int priority=0;
+    Queue* behind=NULL;
+    Queue* first=NULL;
+};
+
+int  QueueSize (Queue* last)
+{
+    if (last==NULL)
+        return 0;
+    int count=0;
+    Queue*temp=new Queue;
+    temp=last->first;
+    while (temp!=NULL)
+    {
+        temp=temp->behind;
+        count++;
+    }
+    return count;
+}
+
+
+
+void Add2Queue (int d,int p, Queue* &last)
+{
+    if (QueueSize(last)>4) cout<< "Kolejka pelna"<<endl;
+    else
+    {
+        Queue* new_element=new Queue;
+        new_element->data=d;
+        new_element->priority=p;
+        if (last!=NULL)
+        {
+            if (new_element->priority>=last->priority)
+            {
+                last->behind=new_element;
+                new_element->first=last->first;
+                last=new_element;
+            }
+            else
+            {
+                Queue* temp=last->first;
+                if (new_element->priority<temp->priority)
+                {
+                    last->first=new_element;
+                    new_element->behind=temp;
+                    new_element->first=new_element;
+                }
+                else
+                {
+                    Queue* temp2=temp;
+                    while (new_element->priority>=temp->priority)
+                    {
+                        temp2=temp;
+                        temp=temp->behind;
+                    }
+                    new_element->behind=temp;
+                    new_element->first=temp->first;
+                    temp2->behind=new_element;
+                }
+
+            }
+
+        }
+        else
+        {
+            new_element->first=new_element;
+            last=new_element;
+        }
+
+    }
+
+}
+
+void ShowQueue (Queue* last, int start, int end)
+{
+    if (last!=NULL)
+    {
+        int count=0;
+        Queue*temp=last->first;
+        while(temp!=NULL)
+        {
+            count++;
+            if (count>=start && count<=end)
+                cout<<temp->data<<endl;
+            temp=temp->behind;
+        }
+    }
+    else
+        cout<<"NULL"<<endl;
+}
+
+void ShowQueue (Queue* last)
+{
+    if (last!=NULL)
+    {
+        Queue*temp=last->first;
+        while(temp!=NULL)
+        {
+            cout<<temp->data<<endl;
+            temp=temp->behind;
+        }
+    }
+    else
+        cout<<"NULL"<<endl;
+}
+
+
+
+void RemoveFromQueue (Queue* &last)
+{
+    if (last==NULL)
+        cout<<"Kolejka pusta!"<<endl;
+    else if (last->first==last)
+    {
+        cout<<"Usuwam: "<<last->data<<endl;
+        last=NULL;
+    }
+
+    else
+    {
+        Queue*temp=last->first;
+        cout<<"Usuwam: "<<temp->data<<endl;
+        last->first=temp->behind;
+        delete temp;
+    }
+}
+
+
+int main()
+{
+
+    Queue * myQueue=NULL;
+    RemoveFromQueue(myQueue);
+    Add2Queue(50,5,myQueue);
+    Add2Queue(10,1,myQueue);
+    Add2Queue(15,1,myQueue);
+    Add2Queue(20,2,myQueue);
+    Add2Queue(40,4,myQueue);
+ ShowQueue(myQueue);
+ RemoveFromQueue(myQueue);
+
+ ShowQueue(myQueue);
+ cout<<endl;
+ Add2Queue(16,1,myQueue);
+  ShowQueue(myQueue);
+    return 0;
+
+}

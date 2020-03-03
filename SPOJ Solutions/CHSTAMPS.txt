@@ -1,0 +1,97 @@
+aś i Staś uwielbiają bawić się swoimi zabawkami. Ich mama w ramach prezentu za dobre sprawowanie kupiła im ogromny zestaw pieczątek. Niestety okazało się że mamę chłopców oszukano. Wśród ogromnego wora pieczątek z cyferkami aż K z nich miało na sobie piątki. Chłopcy bardzo poirytowani taką sytuacją postanowili się dostosować. Jaś wybiera sobie liczbę N, a zadaniem Stasia jest podać najmniejszą liczbę, która jest większa od N i zawiera co najmniej K piątek. Napisz program, który po wczytaniu liczby N i K wypisze liczbę X będącą liczbą większą od N i zawierającą co najmniej K piątek.
+
+Wejście
+Pierwsza linia wejścia zawiera liczby N i K. 1 ≤ N ≤ 1015, 1 ≤ K ≤ 15.
+
+Wyjście
+Pierwsza i jedyna linia wyjścia zawiera liczbę X.
+
+Przykład
+Wejście:
+595 2
+
+Wyjście:
+655
+
+########
+
+#include <iostream>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+void incrementStringNumber(string &str){
+    unsigned long long int intStr=stoull(str);
+    intStr++;
+    str=to_string(intStr);
+}
+
+
+int main()
+{
+    string N;
+    int K;
+    string result="";
+
+    cin>>N>>K;
+
+    if (K>N.size())
+        result.assign(K,'5');
+
+    else if(K==N.size())
+    {
+        string temp(K,'5');
+        if (temp>N)
+            result.assign(K,'5');
+        else
+        {
+            result.assign(K,'5');
+            result.insert(result.begin(),'1');
+        }
+    }
+
+    else { //K<N.size()
+
+            incrementStringNumber(N);
+            result=N;
+            int NumberOf5=count(result.begin(),result.end(),'5');
+            int lastIndex=result.size()-1;
+            while (NumberOf5<K && lastIndex>0){
+
+                if (result[lastIndex]=='5') lastIndex--;
+
+                else if (result[lastIndex]<'5'){
+                    result[lastIndex]='5';
+                    NumberOf5=count(result.begin(),result.end(),'5');
+                }
+
+                else if (result[lastIndex]>'5'){
+
+                    if (result[lastIndex-1]+1=='5'){
+                        result[lastIndex-1]++;
+                        result[lastIndex]='0';
+                        NumberOf5=count(result.begin(),result.end(),'5');
+                    }
+
+                    else{
+                        result[lastIndex]='5';
+                        string leftResult=result.substr(0,lastIndex);
+                        string rightResult=result.substr(lastIndex,result.size()-lastIndex);
+                        incrementStringNumber(leftResult);
+                        if (count(result.begin(),result.begin()+lastIndex,'5')
+                        < count(leftResult.begin(),leftResult.end(),'5')) rightResult[0]='0';
+                        if((leftResult.size()+rightResult.size())>result.size()) lastIndex++;
+                        result="";
+                        result+=leftResult;
+                        result+=rightResult;
+                        NumberOf5=count(result.begin(),result.end(),'5');
+                    }
+                }
+            }
+    }
+    cout<<result;
+
+    return 0;
+}
+

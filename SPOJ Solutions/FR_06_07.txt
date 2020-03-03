@@ -1,0 +1,121 @@
+Napisz program, który zamieni ciąg cyfr na format zaprezentowany w przykładzie. Data jest prawidłowo zakodowana, jeśli pierwsze dwie cyfry reprezentują dzień, drugie dwie miesiąc, natomiast kolejne cztery rok (rok jest poprawny jeśli należy do przedziału [1000..2200].
+
+Wejście
+W pierwszym wierszu jedna liczb t określająca liczbę zestawów danych (t < 105).
+
+Każdy zestaw składa się zakodowanej daty (poprawnie lub nie). W skład daty wchodzi maksymalnie 20 cyfr.
+
+Wyjście
+Odkodowujemy datę pisząc [dzień - w postaci liczby bez zer wiodących] [miesiąc - słownie bez polskich znaków, w dopełniaczu] [rok w postaci liczby]. Jeśli data jest niepoprawnie zakodowana wypisujemy "niepoprawny format daty".
+
+Przykład
+Wejście:
+5
+20101987
+31022000
+111111111
+29022004
+29022005
+
+Wyjście:
+20 pazdziernika 1987
+niepoprawny format daty
+niepoprawny format daty
+29 lutego 2004
+niepoprawny format daty
+
+########################
+
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+string checkdate(string date){
+
+if (date.size()!=8) return "niepoprawny format daty";
+
+string year=date.substr(4,4);
+
+if (stoi(year)<1000 || stoi(year)>2200) return "niepoprawny format daty";
+
+string month=date.substr(2,2);
+
+if (stoi(month)<1 || stoi(month)>12) return "niepoprawny format daty";
+
+string day=date.substr(0,2);
+
+if (stoi(month)==2){ 
+    if ((stoi(year)%4==0 && stoi(year)%100!=0) || stoi(year)%400==0){
+    if (stoi(day)<1 || stoi(day)>29) return "niepoprawny format daty";
+    } else {
+     if (stoi(day)<1 || stoi(day)>28) return "niepoprawny format daty";
+    }
+}
+else if (stoi(month)==1 || stoi(month)==3 || stoi(month)==5 || stoi(month)==7 ||
+    stoi(month)==8 || stoi(month)==10 || stoi(month)==12){
+       if (stoi(day)<1 || stoi(day)>31) return "niepoprawny format daty";
+    }
+else{
+       if (stoi(day)<1 || stoi(day)>30) return "niepoprawny format daty";
+}
+
+switch (stoi(month)){
+
+case 1:
+    month="stycznia";
+    break;
+case 2:
+    month="lutego";
+    break;
+case 3:
+    month="marca";
+    break;
+case 4:
+    month="kwietnia";
+    break;
+case 5:
+    month="maja";
+    break;
+case 6:
+    month="czerwca";
+    break;
+case 7:
+    month="lipca";
+    break;
+case 8:
+    month="sierpnia";
+    break;
+case 9:
+    month="wrzesnia";
+    break;
+case 10:
+    month="pazdziernika";
+    break;
+case 11:
+    month="listopada";
+    break;
+case 12:
+    month="grudnia";
+    break;
+}
+string result="";
+result+=to_string(stoi(day));
+result+=" ";
+result+=month;
+result+=" ";
+result+=year;
+return result;
+}
+
+int main()
+{
+    int t;
+    cin>>t;
+    for (int i=0; i<t; i++){
+    string date;
+    cin>>date;
+    cout<<checkdate(date)<<endl;
+    }
+    return 0;
+}

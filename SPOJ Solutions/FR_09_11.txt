@@ -1,0 +1,45 @@
+JAN
+
+Wypisz, ile razy słowo JAN pojawia się jako podciąg (niekoniecznie spójny) w ciągu wejściowym.
+
+Wejście
+W pierwszym i jedynym wierszu znajduje się ciąg liter (J,A,N), którego długość nie przekracza 105.
+
+Wyjście
+Na wyjściu należy podać jedną liczbę będącą odpowiedzią na postawione wyżej pytanie.
+
+Przykład
+
+Wejście
+JAANNN
+
+Wyjście
+6
+
+######
+
+#include <iostream>
+#include <string>
+using namespace std;
+ 
+int main()
+{
+    string ciag;
+    unsigned int licznik_N=0;
+    unsigned int licznik_A=0; // tj. suma czesciowa 
+    long long int suma=0;
+    size_t pozycja_J; // pierwsza pozycja J
+    size_t pozycja_N; // ostatnia pozycja N
+    cin>>ciag;
+    pozycja_J=ciag.find("J",0);
+    pozycja_N=ciag.rfind("N", ciag.size()-1);
+    ciag=ciag.substr(pozycja_J, pozycja_N-pozycja_J+1);
+       for (int i=ciag.size()-1; i>=0; i--)
+    {
+       if(ciag.at(i)=='N') licznik_N++;
+       else if(ciag.at(i)=='A') licznik_A+=licznik_N;
+       else suma+=licznik_A;
+    }
+    cout<<suma<<endl;
+    return 0;
+}

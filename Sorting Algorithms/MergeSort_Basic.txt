@@ -1,0 +1,70 @@
+#include<iostream>
+using namespace std;
+
+void scal (int * tab, int lewy, int srodek, int prawy)
+{
+int i = lewy;
+int j = srodek+1;
+int current=lewy; // lub int current=i;
+int *pom;
+pom = new int [prawy+1];
+
+for (int i=0; i<=prawy; i++) pom[i]=tab[i];
+
+while (i<=srodek && j<=prawy)
+{
+if (pom[i]<=pom[j])
+    {
+    tab[current]=pom[i];
+    i++;
+    }
+else
+    {
+    tab[current]=pom[j];
+    j++;
+    }
+current++;
+}
+
+while (i<=srodek) // wartosci od j do prawy sa zapisane juz w oryginalnej tablicy
+{
+   tab[current]=pom[i];
+   current++;
+   i++;
+}
+
+}
+
+void merge_sort (int * tab, int lewy, int prawy)
+{
+    if (lewy<prawy)
+    {
+        int srodek=(lewy+prawy)/2;
+        merge_sort(tab, lewy, srodek);
+        merge_sort(tab, srodek+1, prawy);
+        scal(tab, lewy, srodek, prawy);
+    }
+}
+
+int main()
+{
+	int *tab, n;
+
+  	cout<<"Ile liczb bedziesz chcial posortowac? ";
+  	cin>>n;
+  	tab = new int [n]; //przydzielenie pamieci na elementy tablicy
+  	//wczytanie liczb
+
+  	for (int i=0;i<n;i++)
+    	cin>>tab[i];
+
+  	merge_sort(tab,0, n-1);
+
+  	//wypisanie posortowanych elementów
+  	for(int i=0;i<n;i++)
+          cout<<tab[i]<<" ";
+
+  	cin.ignore();
+  	cin.get();
+  	return 0;
+}

@@ -1,0 +1,137 @@
+#include <iostream>
+using namespace std;
+
+class Element
+{
+ protected:
+ int data=0;
+ Element* next=NULL;
+ public:
+ Element(int data)
+ {
+     this->data=data;
+     this->next=NULL;
+ }
+ friend class ListOne;
+};
+
+class ListOne
+{
+    protected:
+    Element* first=NULL;
+    Element* last=NULL;
+    public:
+    ListOne(){};
+
+    Element* getPosition(unsigned long long int pos)
+    {
+       if (pos<1 || pos>this->size()) {cout<<"podano nieprawidlowa pozycje return NULL"<<endl; return NULL;}
+       unsigned long long int i=1;
+       Element*temp=this->first;
+       while(i++<pos)
+        temp=temp->next;
+        return temp;
+    }
+    unsigned long long int size()
+    {
+       unsigned long long int i=0;
+       Element*temp=this->first;
+       while(temp!=NULL)
+       {
+          temp=temp->next;
+          i++;
+       }
+        return i;
+    }
+
+    void show()
+    {
+      Element*temp=this->first;
+      unsigned long long int i=1;
+        while (temp!=NULL)
+        {
+           cout<<i++<<". "<<temp->data<<endl;
+           temp=temp->next;
+        }
+        cout << "NULL " << "[" << this->size() << "] "<<endl;
+		if (this->first!=NULL) cout << "P=" << this->first->data << " O=" << this->last->data << "\n\n";
+		else cout << "P=NULL O=NULL\n\n";
+    }
+
+    void add(int d, unsigned long long int pos)
+    {
+        Element *new_element=new Element(d);
+        if (this->size()==0) {this->first=new_element; this->last=new_element;} // lista pusta
+        else
+        {
+          if (pos==0 || pos==1) {new_element->next=this->first; this->first=new_element;} // dodawanie na 1 pozycje w liscie
+          else if (pos>this->size())  {this->last->next=new_element; this->last=new_element;} // dodawanie na koniec
+          else {Element *before=getPosition(pos-1); new_element->next=before->next; before->next=new_element;} //dodawanie w srodek
+        }
+    }
+
+    bool rmv(unsigned long long int pos)
+    {
+       if (this->size()==0) {cout<<"Kolejka pusta!!!"<<endl; return false;}
+       if (pos<1 || pos>this->size()) {cout<<"Nieprawidlowa pozycja"<<endl; return false;}
+
+       if (this->size()==1) {delete this->first; this->first=this->last=NULL;} // tylko 1 element w kolejce
+       else
+       {
+           if (pos==1) {Element *temp=this->first; this->first=this->first->next; delete temp;} //  1 element z kolejki
+           else if (pos==this->size()) {Element *before=getPosition(this->size()-1); before->next=NULL; delete this->last; this->last=before;} //  ostatni element z kolejki
+           else {Element *before=getPosition(pos-1); Element *temp=getPosition(pos); before->next=temp->next; delete temp;} //srodkowy z kolejki
+       }
+    }
+
+        void rmv_all()
+    {
+
+
+       while(this->first!=NULL)
+       {
+           Element* temp=this->first->next;
+           delete this->first;
+           this->first=temp;
+
+       }
+
+
+    }
+};
+
+int main()
+{
+    	ListOne* myList = new ListOne();
+	myList->show(); // NULL
+
+	myList->add(10,10); // pierwszy element, pozycja nie ma znaczenia, doda sie
+	myList->show();
+
+	myList->add(20,0);  // ok
+	myList->add(30,1);  // ok
+	myList->add(40,1);  // ok
+	myList->add(50,4);  // ok
+	myList->add(60,100);  // ok i tak na koniec
+	myList->show();
+    myList->rmv(0); // b³¹d
+	myList->rmv(8); // b³¹d
+	myList->rmv(2); // ze œrodka
+	myList->show();
+	myList->rmv(1); // pierwszy
+	myList->show();
+	myList->rmv(myList->size()); // ostatni
+	myList->show();
+    myList->rmv_all();
+	myList->show();
+
+	myList->add(10,10);
+    myList->add(20,0);  // ok
+	myList->add(30,1);  // ok
+	myList->add(40,1);  // ok
+	myList->add(50,4);  // ok
+	myList->add(60,100);  // ok i tak na koniec
+	myList->show();
+
+    return 0;
+}

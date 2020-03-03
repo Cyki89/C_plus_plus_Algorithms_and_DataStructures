@@ -1,0 +1,74 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <time.h>
+using namespace std;
+
+
+bool sortOrder(pair<int,int> p1, pair<int,int> p2)
+{
+    return p1.first<p2.first;
+}
+
+int main()
+{
+    pair<int,int> p;
+    vector<pair<int,int>>v; //(weight,profit)
+    //vector<pair<int,int>>v={{0,0}, {1,1}, {2,3}, {4,4} ,{4,5}, {6,6}, {8,7}};
+    srand(time(NULL));
+    int w=rand()%11+1;
+   // int w=8;
+    cout<<"Weight: "<<w<<endl<<endl;
+    p.first=0; p.second=0;
+    v.push_back(p);
+    do{
+    p.first=rand()%9+1;
+    p.second=rand()%9+1;
+    v.push_back(p);
+    } while (v.size()<10 || p.second%2==0);
+
+    cout<<"Before sort: "<<endl;
+    for (auto x:v)
+        cout<<x.first<<" "<<x.second<<endl;
+    sort(v.begin(),v.end(),sortOrder);
+    cout<<endl<<"After sort: "<<endl;
+    for (auto x:v)
+        cout<<x.first<<" "<<x.second<<endl;
+
+    int T[v.size()][w+1]={};
+    for(int i=1; i<v.size(); i++){
+        for (int j=1; j<=w; j++){
+                if (v[i].first>j) T[i][j]=T[i-1][j];
+                else{
+                    T[i][j]=max(T[i-1][j],v[i].second+T[i-1][j-v[i].first]);
+                }
+        }
+    }
+    int max=T[v.size()-1][w];
+    cout<<endl<<"Max: "<<max<<endl<<endl;
+
+    cout<<"Table: "<<endl<<"w:    ";
+    for(int i=0; i<=w; i++) cout<<i<<" ";
+    cout<<endl;
+    for(int i=0; i<v.size(); i++){
+        cout<<"("<<v[i].first<<","<<v[i].second<<") ";
+        for(int j=0; j<=w; j++){
+            cout<<T[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+
+    vector<pair<int,int>>r;
+    for(int i=v.size()-1; i>0; i--){ //uzwlediam najciezszy element!!!(aby jak najniej bylo elementow w plecaku)
+            if (T[i][w]-v[i].second==T[i-1][w-v[i].first]) {
+                    r.push_back(v[i]);
+                    w-=v[i].first;
+            }
+    }
+    cout<<endl<<"Results: "<<endl;
+    for (auto x:r)
+        cout<<x.first<<" "<<x.second<<endl;
+
+    return 0;
+}
+

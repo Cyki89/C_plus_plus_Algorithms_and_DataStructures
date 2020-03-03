@@ -1,0 +1,73 @@
+Dla danego n należy wypisać minimalną liczbę dodatnią, której iloczyn cyfr jest równy n.
+
+Wejście
+W pierwszej linii wejścia znajduje się liczba testów t (0 < t ≤ 2*106). Każdy test składa się z jednej liczby n (0 ≤ n ≤ 109).
+
+Wyjście
+Dla każdego testu minimalna liczba dodatnia, której iloczyn cyfr jest równy n lub NIE jeśli taka liczba nie istnieje.
+
+Przykład
+Wejście:
+2
+15
+20
+
+Wyjście:
+35
+45
+
+########
+
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int main()
+{
+    int t;
+    cin>>t;
+    for (int i=0; i<t; ++i)
+    {
+        int n;
+        cin>>n;
+        if (n==0)
+        {
+            cout<<"10"<<endl;
+            continue;
+        }
+        vector <int> vecOfDigits;
+        bool not_divided=false;
+        while(n>9)
+        {
+            int j;
+            int max=9;
+            for (j=max; j>1; --j)
+            {
+                if(n%j==0)
+                {
+                    vecOfDigits.push_back(j);
+                    n/=j;
+                    max=j;
+                    break;
+                }
+            }
+            if (j==1)
+            {
+            not_divided=true;
+            cout<<"NIE"<<endl;
+            break;
+            }
+        }
+        if(not_divided==false)
+        {
+            vecOfDigits.push_back(n);
+            vector<int>::reverse_iterator rit;
+            for (rit = vecOfDigits.rbegin(); rit!=vecOfDigits.rend(); rit++)
+                cout<<*rit;
+            cout<<endl;
+        }
+    }
+    return 0;
+}
+
+

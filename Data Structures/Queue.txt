@@ -1,0 +1,107 @@
+#include <iostream>
+using namespace std;
+
+struct Queue
+{
+  int data=0;
+  Queue* behind=NULL;
+  Queue* first=NULL;
+};
+
+int  QueueSize (Queue* last)
+{
+if (last==NULL) return 0;
+  int count=0;
+  Queue*temp=new Queue;
+  temp=last->first;
+  while (temp!=NULL)
+  {
+   temp=temp->behind;
+   count++;
+  }
+  return count;
+}
+
+void Add2Queue (int d, Queue* &last)
+{
+    if (QueueSize(last)>4) cout<< "Kolejka pe3na"<<endl;
+
+    else{
+    Queue* new_element=new Queue;
+    new_element->data=d;
+    if (last!=NULL)
+    {
+        last->behind=new_element;
+        new_element->first=last->first;
+    }
+    else {new_element->first=new_element;}
+     last=new_element;
+    }
+
+}
+
+void ShowQueue (Queue* last, int start, int end)
+{
+  if (last!=NULL)
+  {
+  int count=0;
+  Queue*temp=last->first;
+   while(temp!=NULL)
+    {
+    count++;
+    if (count>=start && count<=end) cout<<temp->data<<endl;
+    temp=temp->behind;
+    }
+  }
+  else cout<<"NULL"<<endl;
+}
+
+
+void RemoveFromQueue (Queue* &last)
+{
+  if (last==NULL) cout<<"Kolejka pusta!"<<endl;
+  else if (last->first==last)
+  {
+    cout<<"Usuwam: "<<last->data<<endl;
+    last=NULL;
+  }
+
+  else
+  {
+  Queue*temp=last->first;
+  cout<<"Usuwam: "<<temp->data<<endl;
+  last->first=temp->behind;
+  delete temp;
+  }
+}
+
+
+
+
+int main()
+{
+
+    Queue * myQueue=NULL;
+    ShowQueue(myQueue,2,4);
+    RemoveFromQueue(myQueue);
+    Add2Queue(10,myQueue);
+    Add2Queue(20,myQueue);
+    Add2Queue(30,myQueue);
+    Add2Queue(40,myQueue);
+    Add2Queue(50,myQueue);
+    Add2Queue(60,myQueue);
+    Add2Queue(80,myQueue);
+    Add2Queue(90,myQueue);
+    Add2Queue(100,myQueue);
+    cout<<QueueSize(myQueue)<<endl;
+    ShowQueue(myQueue,2,4);
+    RemoveFromQueue(myQueue);
+    RemoveFromQueue(myQueue);
+    RemoveFromQueue(myQueue);
+    RemoveFromQueue(myQueue);
+
+
+
+    return 0;
+
+}

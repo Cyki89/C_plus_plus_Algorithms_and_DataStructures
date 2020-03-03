@@ -1,0 +1,69 @@
+#include<iostream>
+using namespace std;
+
+void validate_heapMax (int * tab, int parentindex, int prawy)
+{
+int maxindex=parentindex;
+int leftchild=2*parentindex+1;
+int rightchild=2*parentindex+2;
+
+if (leftchild<=prawy && tab[leftchild]>tab[maxindex])
+{
+    maxindex=leftchild;
+}
+
+if (rightchild<=prawy && tab[rightchild]>tab[maxindex])
+{
+    maxindex=rightchild;
+}
+
+if (parentindex!=maxindex)
+{
+    int buffor=tab[maxindex];
+    tab[maxindex]=tab[parentindex];
+    tab[parentindex]=buffor;
+    validate_heapMax (tab, maxindex, prawy);
+}
+}
+
+
+void heap_sort (int * tab, int lewy, int prawy)
+{
+
+for (int i=(prawy-1)/2; i>=0; i--)
+{
+    validate_heapMax (tab, i, prawy);
+}
+
+for (int i=prawy; i>0; i--)
+{
+    int buffor=tab[0];
+    tab[0]=tab[i];
+    tab[i]=buffor;
+    validate_heapMax(tab,0,--prawy);
+
+}
+}
+
+int main()
+{
+	int *tab, n;
+
+  	cout<<"Ile liczb bedziesz chcial posortowac? ";
+  	cin>>n;
+  	tab = new int [n]; //przydzielenie pamieci na elementy tablicy
+  	//wczytanie liczb
+
+  	for (int i=0;i<n;i++)
+    	cin>>tab[i];
+
+  	heap_sort(tab,0, n-1);
+
+  	//wypisanie posortowanych elementów
+  	for(int i=0;i<n;i++)
+          cout<<tab[i]<<" ";
+
+  	cin.ignore();
+  	cin.get();
+  	return 0;
+}

@@ -1,0 +1,53 @@
+Sprawdź, które spośród danych liczb są liczbami pierwszymi
+
+Input
+n - liczba testów n<100000, w kolejnych liniach n liczb z przedziału [1..10000]
+
+Output
+Dla każdej liczby słowo TAK, jeśli liczba ta jest pierwsza, słowo: NIE, w przeciwnym wypadku.
+
+Example
+Input:
+3
+11
+1
+4
+
+Output:
+TAK
+NIE
+NIE
+
+######
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+    int x, n;
+    bool czy_pierwsza;
+    cin>>n;
+    for (int i=1; i<=n; i++)
+    {
+        cin>>x;
+        if (x==1) czy_pierwsza=false;
+        if (x==2) czy_pierwsza=true;
+        for (int j=2; j<x; j++)
+        {
+                if (x%j==0)
+                {
+                    czy_pierwsza=false;
+                    break;
+                }
+
+            czy_pierwsza=true;
+        }
+        if (czy_pierwsza==false)
+            cout<<"NIE"<<endl;
+        else
+            cout<<"TAK"<<endl;
+    }
+    return 0;
+}

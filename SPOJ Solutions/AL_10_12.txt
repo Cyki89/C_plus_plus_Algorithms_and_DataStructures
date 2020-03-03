@@ -1,0 +1,66 @@
+- Jeszcze się tam żagiel bieli, chłopców, którzy odpłynęli..."-  cichutko i smętnie, mocno przy tym fałszując, podśpiewuje sobie pod nosem pani Maria Sędziospoj i tak naprawdę nikt nie wie dlaczego. Możliwe, że tak naprawdę pani Profesor wspomina, coroczną wakacyjną pracę na obozach żeglarskich i wszystkich adeptów żeglarstwa, którzy "wypłynęli" z jej rąk. W każdym razie pani Maria znowu przygotowała swoje wcześniejsze, dobrze znane, lekko tylko zmienione zadanie.
+
+Oto to zadanie: Ile liczb naturalnych z podanego przedziału [sp, sk], jest podzielnych przez co najmniej jedną z trzech podanych liczb a, b lub c?
+
+ 
+
+ 
+
+Wejście
+Najpierw, w pierwszej linii trzy liczby całkowite 0 < a, b, c < 231.
+Potem nieokreślona ilość zapytań, par liczb całkowitych 0 < sp ≤ sk < 231 (każda para w nowej linii), które określają początek i koniec przedziału.
+
+Wyjście
+Dla każdego podanego przedziału podać w oddzielnej linii wynik, liczbę będącą odpowiedzią na pytanie.
+
+Przykład
+Wejście:
+3 5 7
+1 2
+1 3
+3 5
+1 100 
+Wyjście:
+0
+1
+2
+55
+
+#######
+
+#include <iostream>
+
+using namespace std;
+
+unsigned long long int NWD (unsigned long long int a,
+unsigned long long int b) {
+    while(b){
+        swap(a=a%b, b);
+    }
+    return a;
+}
+
+unsigned long long int NWW (unsigned long long int a, 
+unsigned long long int b, unsigned long long int NWD) {
+        return a*b/NWD;
+}
+
+
+
+int main()
+{
+    unsigned long long int a,b,c,sk,sp,result,abNWW,acNWW,bcNWW,abcNWW;
+    cin>>a>>b>>c;
+    while(cin>>sp>>sk){
+        sp--;
+        abNWW=NWW(a,b,NWD(a,b));
+        acNWW=NWW(a,c,NWD(a,c));
+        bcNWW=NWW(b,c,NWD(b,c));
+        abcNWW=NWW(c,abNWW,NWD(c,abNWW));
+        sp=sp/a+sp/b+sp/c-sp/abNWW-sp/acNWW-sp/bcNWW+sp/abcNWW;
+        sk=sk/a+sk/b+sk/c-sk/abNWW-sk/acNWW-sk/bcNWW+sk/abcNWW;
+        result=sk-sp;
+        cout<<result<<endl;
+    }
+    return 0;
+}

@@ -1,0 +1,83 @@
+Tulipany
+
+Jasiu i Stasiu hodują tulipany. Jasiu hoduje odmianę przepięknus czerwonus, a Stasiu pospolitus zółtus. W tym roku chcą wyhodować nową odmianę, która będzie połączeniem obu. Każdemu tulipanowi przypisali wartość kwiecistości i postanowili skrzyżować osobnika o czerwonych kwiatach z osobnikiem o żółtych kwiatach, których wartości kwiecistości będą zbliżone. Ta cecha spowoduje, że nowa odmiana będzie wyjątkowa. Gdyby okazało się jednak, że różnica jest zbyt duża, będą musieli wstrzymać się z nową odmianą. Twoim zadaniem jest policzyć najmniejszą różnicę kwiecistości między tulipanami Jasia a Stasia.
+
+Wejście
+W pierwszym wierszu wejścia znajduje się liczba kwiatów Jasia n (1 ≤ n ≤ 105). W drugim wierszu danych jest n wartości całkowitych ai (0 ≤ ai ≤ 109) oznaczających kwiecistości tulipanów czerwonych.
+W trzecim wierszu wejścia znajduje się liczba kwiatów Stasia m (1 ≤ m ≤ 105). W czwartym wierszu danych jest m wartości całkowitych bi (0 ≤ bi ≤ 109) oznaczających kwiecistości tulipanów żółtych.
+
+Wyjście
+Na wyjściu należy wypisać jedną liczbę, najmniejszą różnicę między wartościami kwiecistości tulipanów Jasia i Stasia.
+
+ 
+
+Przykład
+
+Wejście
+5
+15 8 14 8 1
+7
+4 4 20 10 17 5 11
+
+Wyjście
+2
+
+#######
+
+#include <iostream>
+#include <math.h>
+#include <climits>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+int binary_search_for_closest_diffrent (const vector <int> &vec, int x){
+ int first,last,mid;
+ first=0;
+ last=vec.size()-1;
+
+ while(first<=last){
+    mid=(first+last)/2;
+    if (x==vec[mid]) return 0;
+    else if (x<vec[mid]){
+       last=mid-1;
+    }
+    else
+        first=mid+1;
+ }
+ if (last<0 || first>=vec.size())
+    return abs(x-vec[mid]);
+ else if (abs(x-vec[first])<abs(x-vec[last]))
+    return abs(x-vec[first]);
+ else
+    return abs(x-vec[last]);
+}
+int main()
+{
+    int n,m;
+
+    cin>>n;
+    vector <int> a(n);
+    for(int i=0; i<n; ++i)
+         cin>>a[i];
+
+    cin>>m;
+    vector <int> b(m);
+    for(int i=0; i<m; ++i)
+        cin>>b[i];
+
+    sort(a.begin(), a.end());
+    int min=INT_MAX;
+    int new_min;
+
+    for(int i=0; i<m; ++i){
+      new_min=binary_search_for_closest_diffrent(a,b[i]);
+      if (min>new_min)
+        min=new_min;
+      if (min==0)
+        break;
+    }
+    cout<<min<<endl;
+    return 0;
+}

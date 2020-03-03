@@ -1,0 +1,45 @@
+#include<iostream>
+using namespace std;
+
+void select_sort (int * tab, int lewy, int prawy)
+{
+    int min_index;
+    for (; lewy<prawy; lewy++)
+    {
+        min_index=lewy;
+
+        for (int i=lewy+1; i<=prawy; i++)
+            if (tab[i]< tab[min_index])
+                min_index=i;
+
+        if (min_index!=lewy)
+        {
+            int buffor=tab[lewy];
+            tab[lewy]=tab[min_index];
+            tab[min_index]=buffor;
+        }
+    }
+}
+
+int main()
+{
+    int *tab, n;
+
+    cout<<"Ile liczb bedziesz chcial posortowac? ";
+    cin>>n;
+    tab = new int [n]; //przydzielenie pamieci na elementy tablicy
+    //wczytanie liczb
+
+    for (int i=0; i<n; i++)
+        cin>>tab[i];
+
+    select_sort(tab,0, n-1);
+
+    //wypisanie posortowanych elementów
+    for(int i=0; i<n; i++)
+        cout<<tab[i]<<" ";
+
+    cin.ignore();
+    cin.get();
+    return 0;
+}

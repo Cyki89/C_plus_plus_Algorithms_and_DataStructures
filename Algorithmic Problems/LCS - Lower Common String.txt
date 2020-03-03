@@ -1,0 +1,59 @@
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+void print_LCS(vector<vector<int>> c, string x, string y){
+    int i=x.size()-1, j=y.size()-1;
+    string s;
+    while(i> 0 && j>0){
+        if(c[i-1][j]>c[i][j-1]){
+            i--;
+        }else if(c[i][j]==c[i-1][j-1]+1){
+            s+=y[j];
+            i--; j--;
+        }else{
+            j--;
+        }
+    } for (string::reverse_iterator rit=s.rbegin(); // print reverse string
+           rit!=s.rend(); rit++) {
+               cout<<*rit;
+           }cout<<endl;
+}
+
+int LCS(string x, string y){
+    vector<vector<int>> c;
+    for (int i=0; i<x.size(); i++){
+        c.push_back(vector<int>(y.size(),0));
+    }
+    for (int i=1; i<x.size(); i++){
+        for (int j=1; j<y.size(); j++){
+            if (x[i]==y[j]){
+                c[i][j]=c[i-1][j-1]+1;
+            }else{
+                c[i][j]=max(c[i-1][j],c[i][j-1]);
+            }
+        }
+    }print_LCS(c,x,y);
+        
+        for (int i=0; i<x.size(); i++){ //print table
+            for (int j=0; j<y.size(); j++){
+            cout<<c[i][j]<<" ";
+        } cout<<endl; 
+    }
+    cout<<"Dlugosc: ";
+    return c[x.size()-1][y.size()-1];
+}
+
+
+int main()
+{
+    //string x(" asbsscsdpppp"), y(" aeebeeceeeeeedoooo"), temp;
+    string x(" "), y(" "), temp;
+    cout<<"Podaj x: "; cin>>temp; x+=temp;
+    cout<<"Podaj y: "; cin>>temp; y+=temp;
+    cout<<"Najdluzszy wspolny podciag: ";
+    cout<<LCS(x,y)<<endl;
+    return 0;
+}

@@ -1,0 +1,62 @@
+Bitek dopiero poznaje tajniki tworzenia stron WWW, a jego wuj Bajtosław bardzo mu w tym pomaga. Dziś mają za zadanie stworzyć witrynę obsługującą sklep internetowy. Jak zwykle obaj webmasterzy dzielą się pracą. Bitek zajmuje się częścią programistyczną, zaś jego wuj częścią wizualną. Najtrudniejszą rzeczą będzie zaimplementowanie formularza kontaktowego, w którym nasz bohater musi stworzyć walidację adresu e-mail - nie wie jeszcze, że HTML 5 ma wbudowany mechanizm walidacji adresów mailowych. Czasu jest niewiele, a Bitek ma spore problemy, żeby to poprawnie zaprogramować - szczególnie dlatego, że musi używać języka PHP. Pomóż naszemu bohaterowi i napisz program w dowolnym języku sprawdzający poprawność adresu e-mail. Oto kryteria:
+
+adres e-mail powinien
+
+zawierać dokładnie jeden znak (@)
+można używać małych lub dużych liter języka łacińskiego, cyfr oraz znaki:
+kropka (.)
+podłoga (_)
+adres e-mail musi mieć format [pierwszy ciąg znaków]@[drugi ciąg znaków].[trzeci ciąg znaków składający się z 2 lub 3 liter] (pierwszy i drugi ciąg znaków musi się składać z n znaków, gdzie n zawiera się w przedziale [1..20],
+w mailu może być wiele znaków kropki i każda musi znajdować się między dwoma znakami różnymi niż znak (.) i (@) 
+Wejście
+W pierwszym wierszu jedna liczba t określająca liczbę zestawów danych.
+
+Każdy zestaw składa się z jednego wiersza, w którym mogą wystąpić znaki ASCII z przedziału [32..126]. Długość wiersza nie przekracza 100 znaków. Na początku i końcu każdego wiersza nie występują spacje.
+
+Wyjście
+Dla każdego zestawu testowego napis Tak, jeśli adres e-mail jest prawidłowy oraz Nie w przeciwnym razie.
+
+Przykład
+Wejście:
+5
+mat h@edu.pl
+algorytm@edu.pl
+algoliga@algoliga.edu.pl
+1234@123.PL
+1234@123..pl
+
+Wyjście:
+Nie
+Tak
+Tak
+Tak
+Nie
+
+########
+
+#include <iostream>
+#include <string>
+#include <regex>
+using namespace std;
+
+
+int main()
+{
+    string t;
+    getline(cin,t);
+    string email;
+    regex pattern1("[\\w\\.]{1,20}@[\\w\\.]{1,20}\\.[a-zA-Z]{2,3}");
+    regex pattern2("(\\.\\.)|(\\.@)|(@\\.)|(.*@.*@.*)");
+
+    for(int i=0; i<stoi(t); i++)
+    {
+        getline(cin,email);
+        smatch matches;
+            if(regex_match(email, matches, pattern1)
+               && !regex_search(email, matches, pattern2))
+                cout<<"Tak"<<endl;
+            else
+                cout<<"Nie"<<endl;
+    }
+    return 0;
+}

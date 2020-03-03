@@ -1,0 +1,67 @@
+Jasio wie, że sekretny kod na którym mu zależy jest nieujemną całkowitą liczbą n cyfrową. Kłopot w tym, że poznał tylko niektóre jej cyfry. Teraz nie wie, czy ma tracić czas na próbowanie wszystkich możliwych kodów, czy też potrwa to za długo i powinien jeszcze dokładniej poznać tę liczbę.
+
+Wejście
+W pierwszej linii wejścia znajduje się liczba testów 0<t<=1000. Następnie każdy test w oddzielnej linii. Pojedynczy test składa się z liczby 0<n<=100 oraz, po spacji, ciągu n znaków z których każdy jest cyfrą, jeśli Jasio wie że w kodzie na danym miejscu stoi ta cyfra, lub znakiem zapytania, jeśli Jasio nie wie jaka cyfra stoi na danym miejscu w jego kodzie.
+
+Wyjście
+Dla każdego testu wynik w osobnej linii. Wynikiem jest liczba możliwych sekretnych kodów.
+
+Przykład
+Wejście:
+2
+3 12?
+5 1?2?3
+
+Wyjście:
+10
+100 
+
+########
+
+#include <iostream>
+#include <string>
+#include <math.h>
+#include <algorithm>
+using namespace std;
+
+ string countComb(string str, int n){
+
+ int strSize=str.size();
+ int i=0;
+ string result="1";
+
+ while(strSize>n && str[i]=='?'){
+      i++;
+      strSize--;
+   
+ }
+
+ if (strSize==1 && str[i]=='?') return "10";
+
+ if (strSize==n && str[i]=='?'){
+    result="9";
+    i++;
+ }
+ 
+int licznik=count(str.begin()+i,str.end(),'?');
+for (int j=0; j<licznik; j++){
+   result+="0"; 
+}
+ 
+ return result;
+}
+
+
+int main()
+{
+    int t;
+    cin>>t;
+    for (int i=0; i<t; i++){
+        int n;
+        string str;
+        cin>>n>>str;
+       cout<<countComb(str,n)<<endl;
+    }
+
+    return 0;
+}

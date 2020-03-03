@@ -1,0 +1,62 @@
+#include <iostream>
+#include <math.h>
+#include <vector>
+#include <time.h>
+using namespace std;
+
+
+template <typename T> void show(T& container,int i=-1) {
+   cout <<string(60,'=')<< "\n[" << container.size() << "]=\t";
+   int linebreak=1;
+   int jot = 0;
+   for (auto x: container) {
+      if (i>-1 && jot==i) cout << "[" << x << "] ";
+      else cout << x << " ";
+      if ((++linebreak)%15==0) cout << "\n\t";
+      jot++;
+   }
+   cout << endl;
+}
+
+
+
+int main() {
+   srand(time(NULL)); setlocale(LC_ALL, "");
+   vector <int> v;
+   vector<int>::iterator it;
+   do { v.push_back(rand()%10); } while (v.size()<8 || v.back()%2==0 );
+
+
+   for (unsigned i=0;i<v.size()-1;i++) {
+		unsigned mini = v[i];
+		unsigned mini_index=i;
+		for (unsigned j = i+1; j<v.size(); j++) if (mini>v[j]) { mini = v[j]; mini_index = j; }
+		show(v,mini_index);
+        v[mini_index] = v[i];
+		v[i] = mini;
+
+   }
+
+   show(v);
+
+
+ return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
